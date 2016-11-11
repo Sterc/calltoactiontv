@@ -1,0 +1,37 @@
+.calltoactiontv .twitter-typeahead {
+    width: 100%;
+}
+
+.calltoactiontv-field-link-displaytext {
+    position: absolute;
+    white-space: pre;
+    overflow: hidden;
+    top: 1px;
+    left: 1px;
+    right: 25px;
+    bottom: 1px;
+    padding: 8px;
+    background: #fff;
+    z-index: 1;
+    color: #999;
+}
+
+.calltoactiontv .tt-menu {
+    width: 100%;
+    -webkit-border-radius: 0 0 2px 2px;
+    -moz-border-radius: 0 0 2px 2px;
+    border-radius: 0 0 2px 2px;
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    background: #fff;
+}
+
+.calltoactiontv .tt-menu .tt-dataset p {
+    padding: 5px 10px;
+}
+
+.calltoactiontv .tt-menu .tt-dataset p:hover {
+    background: #3697cd;
+    cursor: pointer;
+}

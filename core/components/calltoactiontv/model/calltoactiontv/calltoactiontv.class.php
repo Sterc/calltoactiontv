@@ -7,12 +7,24 @@
  */
 class CallToActionTv
 {
+    /**
+     * @var modX|null
+     */
     public $modx = null;
 
+    /**
+     * @var mixed|string
+     */
     public $namespace = 'calltoactiontv';
 
+    /**
+     * @var null
+     */
     public $cache = null;
 
+    /**
+     * @var array
+     */
     public $options = array();
 
     public function __construct(modX &$modx, array $options = array())
@@ -39,17 +51,18 @@ class CallToActionTv
         /* loads some default paths for easier management */
         $this->options = array_merge(
             array(
-                'namespace'     => $this->namespace,
-                'corePath'      => $corePath,
-                'modelPath'     => $corePath . 'model/',
-                'chunksPath'    => $corePath . 'elements/chunks/',
-                'snippetsPath'  => $corePath . 'elements/snippets/',
-                'templatesPath' => $corePath . 'templates/',
-                'assetsPath'    => $assetsPath,
-                'assetsUrl'     => $assetsUrl,
-                'jsUrl'         => $assetsUrl . 'js/',
-                'cssUrl'        => $assetsUrl . 'css/',
-                'connectorUrl'  => $assetsUrl . 'connector.php'
+                'namespace'            => $this->namespace,
+                'corePath'             => $corePath,
+                'modelPath'            => $corePath . 'model/',
+                'chunksPath'           => $corePath . 'elements/chunks/',
+                'snippetsPath'         => $corePath . 'elements/snippets/',
+                'templatesPath'        => $corePath . 'templates/',
+                'assetsPath'           => $assetsPath,
+                'assetsUrl'            => $assetsUrl,
+                'jsUrl'                => $assetsUrl . 'js/',
+                'cssUrl'               => $assetsUrl . 'css/',
+                'connectorUrl'         => $assetsUrl . 'connector.php',
+                'linkDetectionPattern' => $this->modx->getOption('contentblocks.link_detection_pattern'),
             ), $options
         );
 

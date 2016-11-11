@@ -1,13 +1,14 @@
 <?php
 /**
- * Searches modResources.
+ * Prefetches a bunch of modResources that are most likely to get picked.
  */
-class CallToActionTVSearchProcessor extends modObjectGetListProcessor
-{
+class CallToActionTVPrefetchProcessor extends modObjectGetListProcessor {
     public $classKey = 'modResource';
     public $languageTopics = array('resource');
     public $defaultSortField = 'pagetitle';
     public $includeIntrotext = true;
+
+
 
     /**
      * Adjust the query prior to the COUNT statement to only get top contenders.
@@ -15,23 +16,12 @@ class CallToActionTVSearchProcessor extends modObjectGetListProcessor
      * @param xPDOQuery $c
      * @return xPDOQuery
      */
-    public function prepareQueryBeforeCount(xPDOQuery $c)
-    {
-        $query = $this->getProperty('query');
+    public function prepareQueryBeforeCount(xPDOQuery $c) {
         $c->where(array(
-          'deleted' => false,
-      ));
-        $c->andCondition(array(
-             'pagetitle:LIKE' => "%$query%",
-             'OR:longtitle:LIKE' => "%$query%",
-             'OR:menutitle:LIKE' => "%$query%",
-             'OR:introtext:LIKE' => "%$query%",
-         ));
-        if (is_numeric($query)) {
-            $c->orCondition(array(
-                                'id' => (int)$query
-                            ));
-        }
+                      'parent' => 0,
+                      'published' => true,
+                      'deleted' => false,
+                  ));
 
         $c->select($this->modx->getSelectColumns('modResource', 'modResource', '', array(
             'id',
@@ -49,8 +39,7 @@ class CallToActionTVSearchProcessor extends modObjectGetListProcessor
      * @param xPDOObject $object
      * @return array
      */
-    public function prepareRow(xPDOObject $object)
-    {
+    public function prepareRow(xPDOObject $object) {
         $charset = $this->modx->getOption('modx_charset', null, 'UTF-8');
         $objectArray = $object->toArray('', false, true);
         $objectArray['pagetitle'] = htmlentities($objectArray['pagetitle'], ENT_COMPAT, $charset);
@@ -62,10 +51,7 @@ class CallToActionTVSearchProcessor extends modObjectGetListProcessor
             $objectArray['introtext'],
             $objectArray['label'],
         );
-
-        if (!$this->includeIntrotext) {
-            unset($objectArray['introtext']);
-        }
+        if (!$this->includeIntrotext) unset($objectArray['introtext']);
         return $objectArray;
     }
 
@@ -80,9 +66,8 @@ class CallToActionTVSearchProcessor extends modObjectGetListProcessor
      * @param mixed $count The total number of objects. Used for pagination.
      * @return string The JSON output.
      */
-    public function outputArray(array $array, $count = false)
-    {
+    public function outputArray(array $array,$count = false) {
         return $this->modx->toJSON($array);
     }
 }
-return 'CallToActionTVSearchProcessor';
+return 'CallToActionTVPrefetchProcessor';
