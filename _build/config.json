@@ -1,0 +1,33 @@
+{
+    "name": "CallToActionTv",
+    "lowCaseName": "calltoactiontv",
+    "description": "Adds a new input type for managing call to action buttons",
+    "author": "Sander Drenth",
+    "version": "0.1.0",
+    "package":{
+        
+        
+        "menus": [],
+        
+        
+
+        "elements": {
+        
+            
+            
+            "snippets": [],
+            
+            
+        
+            
+            "chunks": [
+            
+            ]
+            
+        
+        },
+
+        "systemSettings": []
+    }
+    
+}
