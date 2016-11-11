@@ -1,4 +1,4 @@
-.calltoactiontv .twitter-typeahead {
+.ctatv-wrapper .twitter-typeahead {
     width: 100%;
 }
 
@@ -16,7 +16,7 @@
     color: #999;
 }
 
-.calltoactiontv .tt-menu {
+.ctatv-wrapper .tt-menu {
     width: 100%;
     -webkit-border-radius: 0 0 2px 2px;
     -moz-border-radius: 0 0 2px 2px;
@@ -27,11 +27,11 @@
     background: #fff;
 }
 
-.calltoactiontv .tt-menu .tt-dataset p {
+.ctatv-wrapper .tt-menu .tt-dataset p {
     padding: 5px 10px;
 }
 
-.calltoactiontv .tt-menu .tt-dataset p:hover {
+.ctatv-wrapper .tt-menu .tt-dataset p:hover {
     background: #3697cd;
     cursor: pointer;
 }

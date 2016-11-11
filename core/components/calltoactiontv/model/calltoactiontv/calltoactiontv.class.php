@@ -3,6 +3,8 @@
 /**
  * The main CallToActionTv service class.
  *
+ * @TODO Config add all plugins/elements etc.
+ *
  * @package calltoactiontv
  */
 class CallToActionTv
@@ -63,7 +65,8 @@ class CallToActionTv
                 'cssUrl'               => $assetsUrl . 'css/',
                 'connectorUrl'         => $assetsUrl . 'connector.php',
                 'linkDetectionPattern' => $this->modx->getOption('contentblocks.link_detection_pattern'),
-            ), $options
+            ),
+            $options
         );
 
         $this->modx->addPackage('calltoactiontv', $this->getOption('modelPath'));

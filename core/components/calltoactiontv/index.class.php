@@ -4,10 +4,12 @@ require_once dirname(__FILE__) . '/model/calltoactiontv/calltoactiontv.class.php
  * @package calltoactiontv
  */
 
-abstract class CallToActionTvBaseManagerController extends modExtraManagerController {
+abstract class CallToActionTvBaseManagerController extends modExtraManagerController
+{
     /** @var CallToActionTv $calltoactiontv */
     public $calltoactiontv;
-    public function initialize() {
+    public function initialize()
+    {
         $this->calltoactiontv = new CallToActionTv($this->modx);
 
         $this->addCss($this->calltoactiontv->getOption('cssUrl').'mgr.css');
@@ -21,8 +23,13 @@ abstract class CallToActionTvBaseManagerController extends modExtraManagerContro
         
         parent::initialize();
     }
-    public function getLanguageTopics() {
+
+    public function getLanguageTopics()
+    {
         return array('calltoactiontv:default');
     }
-    public function checkPermissions() { return true;}
+    public function checkPermissions()
+    {
+        return true;
+    }
 }

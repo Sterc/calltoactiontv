@@ -1,36 +1,22 @@
-<div class="calltoactiontv">
-
-    <input id="tv{$tv->id}" name="tv{$tv->id}"
-           type="text" class="textfield"
-           value="{$tv->get('value')|escape}"
-            {$style}
-           tvtype="{$tv->type}"
-    />
-</div>
-
+<input type="hidden" id="tv{$tv->id}" name="tv{$tv->id}" value="{$tv->value|escape}" />
+<div id="ctatv{$tv->id}" style="width:100%;"></div>
 <script type="text/javascript">
-    // <![CDATA[
-    {literal}
-    Ext.onReady(function() {
-        var fld = MODx.load({
-            {/literal}
-            xtype: 'textfield'
-            ,cls: 'ctatv-input'
-            ,applyTo: 'tv{$tv->id}'
-            ,width: '100%'
-            ,enableKeyEvents: true
-            ,msgTarget: 'under'
-            ,allowBlank: {if $params.allowBlank == 1 || $params.allowBlank == 'true'}true{else}false{/if}
-            {if $params.maxLength},maxLength: {$params.maxLength}{/if}
-            {if $params.minLength},minLength: {$params.minLength}{/if}
-            {if $params.regex},regex: new RegExp('{$params.regex}'){/if}
-            {if $params.regexText},regexText: '{$params.regexText}'{/if}
-            {literal}
-            ,listeners: { 'keydown': { fn:MODx.fireResourceFormChange, scope:this}}
-        });
-        Ext.getCmp('modx-panel-resource').getForm().add(fld);
-        MODx.makeDroppable(fld);
-    });
+
+    myTV{$tv->id} = MODx.load{literal}({
+           {/literal}
+           xtype: 'ctatv-panel',
+           renderTo: 'ctatv{$tv->id}',
+           tvFieldId: 'tv{$tv->id}',
+           tvId: '{$tv->id}',
+           record: {
+               link: "{$link}"
+               ,text: "{$text}"
+               ,label: "{$label}"
+               ,target: "{$target}"
+               ,btnclass: "{$btnclass}"
+           }
+           {literal}
+       });
     {/literal}
-    // ]]>
+
 </script>

@@ -16,14 +16,20 @@ class CallToActionTvInputRender extends modTemplateVarInputRender
         ) . 'elements/tv/tpl/calltoactiontv.tpl';
     }
 
-    public function process($value, $params = [])
+    public function process($value, $params = array())
     {
+        $dataArr = $this->modx->fromJSON($value);
 
+        $this->setPlaceholder('link', (isset($dataArr['link']) ? $dataArr['link'] : ''));
+        $this->setPlaceholder('text', (isset($dataArr['text']) ? $dataArr['text']: ''));
+        $this->setPlaceholder('label', (isset($dataArr['label']) ? $dataArr['label']: ''));
+        $this->setPlaceholder('target', (isset($dataArr['target']) ? $dataArr['target']: ''));
+        $this->setPlaceholder('btnclass', (isset($dataArr['btnclass']) ? $dataArr['btnclass']: ''));
     }
 
     public function getLexiconTopics()
     {
-        return ['calltoactiontv:default'];
+        return array('calltoactiontv:default');
     }
 }
 return 'CallToActionTvInputRender';

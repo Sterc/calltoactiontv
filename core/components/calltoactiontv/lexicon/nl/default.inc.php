@@ -6,7 +6,7 @@
  * @subpackage lexicon
  */
 
-$_lang['calltoactiontv'] = 'CallToAction TV';
+$_lang['calltoactiontv'] = 'CallToAction Tv';
 
 $_lang['calltoactiontv.link'] = 'Link';
 $_lang['calltoactiontv.text'] = 'Text';

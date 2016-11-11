@@ -5,8 +5,12 @@ $corePath = $modx->getOption(
     $modx->getOption('core_path') . 'components/calltoactiontv/'
 );
 
+$modx->lexicon->load('calltoactiontv:default');
+
 switch ($modx->event->name) {
     case 'OnTVInputRenderList':
+        $modx->controller->addLexiconTopic('calltoactiontv:default');
+
         $modx->event->output($corePath.'elements/tv/input/');
         break;
     case 'OnTVOutputRenderList':
@@ -20,7 +24,7 @@ switch ($modx->event->name) {
         break;
     case 'OnManagerPageBeforeRender':
         $CallToActionTV = $modx->getService('CallToActionTv', 'CallToActionTv', $corePath.'model/calltoactiontv/');
-        $config         = $CallToActionTV->config;
+        $config         = $CallToActionTV->options;
         $configJSON     = $modx->toJSON($config);
 
         $modx->controller->addHtml(<<<HTML
