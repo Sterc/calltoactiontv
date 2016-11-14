@@ -8,23 +8,19 @@
         
         
         "menus": [],
-        
-        
-
         "elements": {
-        
-            
-            
+            "categories": [
+                {
+                    "name": "CallToActionTv"
+                }
+            ],
             "snippets": [],
-            
-            
-        
-            
             "chunks": [
-            
+                {
+                    "name": "CallToActionTv",
+                    "file": "calltoactiontv.chunk.tpl"
+                }
             ]
-            
-        
         },
 
         "systemSettings": []

@@ -13,7 +13,7 @@ class CallToActionTvInputRender extends modTemplateVarInputRender
             'calltoactiontv.core_path',
             null,
             $this->modx->getOption('core_path') . 'components/calltoactiontv/'
-        ) . 'elements/tv/tpl/calltoactiontv.tpl';
+        ) . 'elements/tv/input/tpl/calltoactiontv.tpl';
     }
 
     public function process($value, $params = array())

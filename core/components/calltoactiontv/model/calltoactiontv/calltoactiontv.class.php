@@ -73,6 +73,17 @@ class CallToActionTv
         $this->modx->lexicon->load('calltoactiontv:default');
     }
 
+    public function renderOutput($value, $options, $tv)
+    {
+        $values = json_decode($value, true);
+
+        if (is_numeric($values['link'])) {
+            $values['link'] = $this->modx->makeUrl($values['link'], '', '', 'full');
+        }
+
+        return $this->modx->getChunk('CallToActionTv', $values);
+    }
+
     /**
      * Get a local configuration option or a namespaced system setting by key.
      *

@@ -1,0 +1,1 @@
+<a href="[[+link]]" target="[[+target]]" title="[[+label]]" class="[[+btnclass]]">[[+text]]</a>
