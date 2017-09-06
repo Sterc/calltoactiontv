@@ -1,5 +1,5 @@
-Changelog for CallToActionTv.
+Changelog for CallToActionTV.
 
-CallToActionTv 0.0.1
+CallToActionTV 1.0.0
 ==============
 - Initial release.

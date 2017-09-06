@@ -1,1 +1,5 @@
-<a href="[[+link]]" target="[[+target]]" title="[[+label]]" class="[[+btnclass]]">[[+text]]</a>
+[[+text:neq=``:then=`
+    <a href="[[+href]]" [[+style:notempty=`class="[[+style]]"`]] [[+target:notempty=`target="[[+target]]"`]]>[[+text]]</a>
+`:else=`
+
+`]]

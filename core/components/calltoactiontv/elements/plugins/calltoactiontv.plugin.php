@@ -1,44 +1,41 @@
 <?php
+/**
+ * CallToActionTV.
+ *
+ * @package calltoactiontv
+ * @subpackage plugin
+ *
+ * @event OnManagerPageBeforeRender
+ * @event OnTVInputRenderList
+ * @event OnTVInputPropertiesList
+ * @event OnDocFormRender
+ *
+ * @var modX $modx
+ */
+
 $corePath = $modx->getOption(
     'calltoactiontv.core_path',
     null,
     $modx->getOption('core_path') . 'components/calltoactiontv/'
 );
-
-$modx->lexicon->load('calltoactiontv:default');
+$callToActionTV = $modx->getService('calltoactiontv', 'CallToActionTV', $corePath . 'model/calltoactiontv/');
 
 switch ($modx->event->name) {
-    case 'OnTVInputRenderList':
+    case 'OnManagerPageBeforeRender':
         $modx->controller->addLexiconTopic('calltoactiontv:default');
+        $callToActionTV->includeAssets();
 
-        $modx->event->output($corePath.'elements/tv/input/');
         break;
-    case 'OnTVOutputRenderList':
-        $modx->event->output($corePath.'elements/tv/output/');
+    case 'OnTVInputRenderList':
+        $modx->event->output($corePath . 'elements/tv/input/');
+
         break;
     case 'OnTVInputPropertiesList':
-        $modx->event->output($corePath.'elements/tv/inputoptions/');
-        break;
-    case 'OnTVOutputRenderPropertiesList':
-        $modx->event->output($corePath.'elements/tv/properties/');
-        break;
-    case 'OnManagerPageBeforeRender':
-        $CallToActionTV = $modx->getService('CallToActionTv', 'CallToActionTv', $corePath.'model/calltoactiontv/');
-        $config         = $CallToActionTV->options;
-        $configJSON     = $modx->toJSON($config);
+        $modx->event->output($corePath . 'elements/tv/input/options/');
 
-        $modx->controller->addHtml(<<<HTML
-        <script type="text/javascript">
-            var CallToActionConfig = $configJSON;
-        </script>
-HTML
-        );
-
-        $modx->controller->addJavascript($config['jsUrl'] . 'bower_components/jquery/dist/jquery.min.js');
-        $modx->controller->addJavascript($config['jsUrl'] . 'bower_components/typeahead.js/dist/bloodhound.min.js');
-        $modx->controller->addJavascript($config['jsUrl'] . 'bower_components/typeahead.js/dist/typeahead.bundle.min.js');
-        $modx->controller->addJavascript($config['jsUrl'] . 'bower_components/typeahead.js/dist/typeahead.jquery.min.js');
-        $modx->controller->addJavascript($config['jsUrl'] . 'calltoactiontv.js');
+        break;
+    case 'OnDocFormRender':
+        $callToActionTV->includeAssets();
 
         break;
 }

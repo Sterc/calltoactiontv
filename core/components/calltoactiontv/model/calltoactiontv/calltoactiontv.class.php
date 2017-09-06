@@ -1,110 +1,134 @@
-<?php
-
+<?php /** @noinspection AutoloadingIssuesInspection */
 /**
- * The main CallToActionTv service class.
- *
- * @TODO Config add all plugins/elements etc.
+ * CallToActionTV.
  *
  * @package calltoactiontv
  */
-class CallToActionTv
+
+class CallToActionTV
 {
     /**
-     * @var modX|null
+     * An instance of the modX class.
      */
-    public $modx = null;
+    public $modx;
 
     /**
-     * @var mixed|string
+     * The current version.
      */
-    public $namespace = 'calltoactiontv';
+    public $version = '1.0.0';
 
     /**
-     * @var null
+     * The namespace for this service class.
      */
-    public $cache = null;
+    public $namespace;
 
     /**
-     * @var array
+     * An array of configuration options.
      */
-    public $options = array();
+    public $config = array();
 
-    public function __construct(modX &$modx, array $options = array())
+    /**
+     * The main constructor for CallToActionTV.
+     *
+     * @param modX  $instance
+     * @param array $config
+     */
+    public function __construct(modX $instance, array $config = array())
     {
-        $this->modx      =& $modx;
-        $this->namespace = $this->getOption('namespace', $options, 'calltoactiontv');
+        $this->modx      = $instance;
+        $this->namespace = $this->modx->getOption('namespace', $config, 'calltoactiontv');
+        $this->config    = array_merge($this->loadSettingsFromNamespace(), $config);
 
-        $corePath = $this->getOption(
-            'core_path',
-            $options,
-            $this->modx->getOption('core_path', null, MODX_CORE_PATH) . 'components/calltoactiontv/'
-        );
-        $assetsPath = $this->getOption(
-            'assets_path',
-            $options,
-            $this->modx->getOption('assets_path', null, MODX_ASSETS_PATH) . 'components/calltoactiontv/'
-        );
-        $assetsUrl = $this->getOption(
-            'assets_url',
-            $options,
-            $this->modx->getOption('assets_url', null, MODX_ASSETS_URL) . 'components/calltoactiontv/'
+        $corePath = $this->modx->getOption(
+            'calltoactiontv.core_path',
+            $config,
+            $this->modx->getOption('core_path') . 'components/calltoactiontv/'
         );
 
-        /* loads some default paths for easier management */
-        $this->options = array_merge(
+        $assetsUrl = $this->modx->getOption(
+            'calltoactiontv.assets_url',
+            $config,
+            $this->modx->getOption('assets_url').'components/calltoactiontv/'
+        );
+
+        $assetsPath = $this->modx->getOption(
+            'calltoactiontv.assets_path',
+            $config,
+            $this->modx->getOption('assets_path').'components/calltoactiontv/'
+        );
+
+        $this->config = array_merge(
+            $this->config,
             array(
-                'namespace'            => $this->namespace,
-                'corePath'             => $corePath,
-                'modelPath'            => $corePath . 'model/',
-                'chunksPath'           => $corePath . 'elements/chunks/',
-                'snippetsPath'         => $corePath . 'elements/snippets/',
-                'templatesPath'        => $corePath . 'templates/',
-                'assetsPath'           => $assetsPath,
-                'assetsUrl'            => $assetsUrl,
-                'jsUrl'                => $assetsUrl . 'js/',
-                'cssUrl'               => $assetsUrl . 'css/',
-                'connectorUrl'         => $assetsUrl . 'connector.php',
-                'linkDetectionPattern' => $this->modx->getOption('contentblocks.link_detection_pattern'),
-            ),
-            $options
+                'namespace'       => $this->namespace,
+                'core_path'       => $corePath,
+                'model_path'      => $corePath . 'model/',
+                'chunks_path'     => $corePath . 'elements/chunks/',
+                'snippets_path'   => $corePath . 'elements/snippets/',
+                'templates_path'  => $corePath . 'templates/',
+                'processors_path' => $corePath . 'processors/',
+                'assets_path'     => $assetsPath,
+                'assets_url'      => $assetsUrl,
+                'js_url'          => $assetsUrl . 'js/',
+                'css_url'         => $assetsUrl . 'css/',
+                'connector_url'   => $assetsUrl . 'connector.php',
+                'version'         => $this->version,
+            )
         );
 
-        $this->modx->addPackage('calltoactiontv', $this->getOption('modelPath'));
+        $this->modx->addPackage('calltoactiontv', $this->config['model_path']);
         $this->modx->lexicon->load('calltoactiontv:default');
     }
 
-    public function renderOutput($value, $options, $tv)
+    /**
+     * Loads all system settings that start with the configured namespace.
+     *
+     * @return array
+     */
+    public function loadSettingsFromNamespace()
     {
-        $values = json_decode($value, true);
+        $config = array();
 
-        if (is_numeric($values['link'])) {
-            $values['link'] = $this->modx->makeUrl($values['link'], '', '', 'full');
+        $c = $this->modx->newQuery('modSystemSetting');
+        $c->where(array(
+            'key:LIKE' => $this->namespace . '.%'
+        ));
+        $c->limit(0);
+
+        /** @var \modSystemSetting[] $iterator */
+        $iterator = $this->modx->getIterator('modSystemSetting', $c);
+        foreach ($iterator as $setting) {
+            $key = $setting->get('key');
+            $key = substr($key, strlen($this->namespace) + 1);
+            $config[$key] = $setting->get('value');
         }
 
-        return $this->modx->getChunk('CallToActionTv', $values);
+        return $config;
     }
 
     /**
-     * Get a local configuration option or a namespaced system setting by key.
+     * The required assets to load CallToActionTV.
      *
-     * @param string $key The option key to search for.
-     * @param array $options An array of options that override local options.
-     * @param mixed $default The default value returned if the option is not found locally or as a
-     * namespaced system setting; by default this value is null.
-     * @return mixed The option value or the default value specified.
+     * @return bool
      */
-    public function getOption($key, $options = array(), $default = null)
+    public function includeAssets()
     {
-        $option = $default;
-        if (!empty($key) && is_string($key)) {
-            if ($options != null && array_key_exists($key, $options)) {
-                $option = $options[$key];
-            } elseif (array_key_exists($key, $this->options)) {
-                $option = $this->options[$key];
-            } elseif (array_key_exists("{$this->namespace}.{$key}", $this->modx->config)) {
-                $option = $this->modx->getOption("{$this->namespace}.{$key}");
-            }
-        }
-        return $option;
+        $this->modx->controller->addCss(
+            $this->config['css_url'] . 'calltoactiontv.css?v=v' . $this->config['version']
+        );
+
+        $this->modx->controller->addJavascript(
+            $this->config['js_url'] . 'calltoactiontv.js?v=v' . $this->config['version']
+        );
+
+        $this->modx->controller->addJavascript(
+            $this->config['js_url'] . 'calltoactiontv.templatevar.js?v=v' . $this->config['version']
+        );
+
+        $this->modx->controller->addHtml('
+            <script type="text/javascript">CallToActionTV.config = ' . json_encode($this->config) . ';</script>
+        ');
+
+        return true;
     }
 }
