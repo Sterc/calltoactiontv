@@ -16,7 +16,10 @@
         },
         'beforerender': {
             fn: function () {
-                Ext.getCmp('modx-tv-elements').setValue('@SELECT CONCAT(`pagetitle`, \' (\', `id`, \')\') AS `name`,`id` FROM `[[+PREFIX]]site_content` WHERE `published` = 1 AND `deleted` = 0 AND `context_key` = \'[[+context_key]]\'');
+                if (Ext.getCmp('modx-tv-elements').getValue() === '') {
+                    // Set the default value.
+                    Ext.getCmp('modx-tv-elements').setValue('@SELECT CONCAT(`pagetitle`, \' (\', `id`, \')\') AS `name`,`id` FROM `[[+PREFIX]]site_content` WHERE `published` = 1 AND `deleted` = 0 AND `context_key` = \'[[+context_key]]\'');
+                }
             }, scope: this
         }
     };
