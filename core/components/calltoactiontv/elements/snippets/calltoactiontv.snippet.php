@@ -47,6 +47,7 @@ switch ($cta['type']) {
     case 'external':
         $cta['href'] = $cta['value'];
         $cta['target'] = '_blank';
+        $cta['rel'] = 'noopener';
 
         break;
 }
