@@ -10,5 +10,8 @@
       "email": "johan@sterc.nl"
     }
   ],
-  "type": "modx-package"
+  "type": "modx-package",
+  "require": {
+    "composer/installers": "~1.0"
+  }
 }
