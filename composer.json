@@ -9,5 +9,6 @@
       "name": "Johan van der Molen",
       "email": "johan@sterc.nl"
     }
-  ]
+  ],
+  "type": "modx-package"
 }
