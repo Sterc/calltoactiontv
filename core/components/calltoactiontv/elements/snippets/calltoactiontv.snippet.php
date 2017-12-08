@@ -47,6 +47,10 @@ switch ($cta['type']) {
     case 'external':
         $cta['href'] = $cta['value'];
         $cta['target'] = '_blank';
+        
+        if (!preg_match("~^(?:f|ht)tps?://~i", $cta['href'])) {
+            $cta['href'] = "http://" . $cta['href'];
+        }
 
         break;
 }
