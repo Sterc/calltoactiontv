@@ -1,5 +1,13 @@
 Changelog for CallToActionTV.
 
+CallToActionTV 1.0.1
+==============
+- Added pdoParser support #2
+- Added option to pass output to placeholders #1
+- Fixed makeUrls when using multicontext environment #3
+- Fixed issue when using quotes in button text #4
+- Automatically prepend external URL with protocol when its not provided #5
+
 CallToActionTV 1.0.0
 ==============
 - Initial release.
