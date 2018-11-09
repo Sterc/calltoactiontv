@@ -45,9 +45,9 @@ switch ($cta['type']) {
 
         break;
     case 'external':
-        $cta['href'] = $cta['value'];
+        $cta['href']   = strpos($cta['value'], 'http') !== 0 ? 'http://' . $cta['value'] : $cta['value'];
         $cta['target'] = '_blank';
-        $cta['rel'] = 'noopener';
+        $cta['rel']    = 'noopener';
 
         break;
 }
