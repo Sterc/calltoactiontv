@@ -26,7 +26,7 @@ $cta['target'] = '';
 switch ($cta['type']) {
     case 'resource':
         if (!empty($cta['resource'])) {
-            $cta['href'] = $modx->makeUrl($cta['resource']);
+            $cta['href'] = $modx->makeUrl($cta['resource'], '', '', 'full');
         } else {
             $cta['href'] = '';
         }
