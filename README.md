@@ -9,6 +9,8 @@
 | options        | Custom chunk name                                                                      |
 | toPlaceholders | Specify the placeholder prefix to output the values to placeholders using this prefix. |
 
+If pdoTools is installed it will automatically use the pdoParser which also makes is posssible to use `@FILE` or `@INLINE` etc.
+
 Default usage: `[[*ctatv:calltoactiontv]]` will output a link with the default CallToActionTV chunk.
 In order to use a custom chunk you simply specify a chunk name like this:
 ```
