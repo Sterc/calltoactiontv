@@ -14,8 +14,9 @@
  * @var string $input
  */
 
-$cta = $modx->fromJSON($input);
-$chunk = (!empty($options)) ? $options : 'callToActionTV';
+$cta            = $modx->fromJSON($input);
+$chunk          = (!empty($options)) ? $options : 'callToActionTV';
+$toPlaceholders = !empty($toPlaceholders) ? $toPlaceholders : false;
 
 if (!is_array($cta) ||
     !isset($cta['type'], $cta['value'], $cta['style'], $cta['text'], $cta['resource'])) {
@@ -52,4 +53,8 @@ switch ($cta['type']) {
         break;
 }
 
-return $modx->getChunk($chunk, $cta);
+if (!$toPlaceholders) {
+    return $modx->getChunk($chunk, $cta);
+}
+
+$modx->setPlaceholders($cta, $toPlaceholders);
