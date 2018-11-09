@@ -2,7 +2,7 @@
   "name": "CallToActionTV",
   "lowCaseName": "calltoactiontv",
   "description": "Call To Action TV package.",
-  "author": "Johan van der Molen",
+  "author": "Sterc",
   "version": "1.0.0",
   "package":{
     "menus": [],
