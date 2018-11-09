@@ -1,6 +1,6 @@
 ---------------------------------------
 CallToActionTV
 ---------------------------------------
-Version: 1.0.0
-Author: Johan van der Molen <johan@sterc.nl>
+Version: 1.0.1
+Author: Sterc <modx@sterc.com>
 ---------------------------------------

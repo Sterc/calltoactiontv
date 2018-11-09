@@ -14,8 +14,15 @@
  * @var string $input
  */
 
-$cta = $modx->fromJSON($input);
-$chunk = (!empty($options)) ? $options : 'callToActionTV';
+$cta            = $modx->fromJSON($input);
+$chunk          = (!empty($options)) ? $options : 'callToActionTV';
+$toPlaceholders = !empty($toPlaceholders) ? $toPlaceholders : false;
+$parser         = $modx;
+
+/* Overwrite with pdoparser for filebased chunks */
+if ($pdo = $modx->getService('pdoTools')) {
+    $parser = $pdo;
+}
 
 if (!is_array($cta) ||
     !isset($cta['type'], $cta['value'], $cta['style'], $cta['text'], $cta['resource'])) {
@@ -26,7 +33,7 @@ $cta['target'] = '';
 switch ($cta['type']) {
     case 'resource':
         if (!empty($cta['resource'])) {
-            $cta['href'] = $modx->makeUrl($cta['resource']);
+            $cta['href'] = $modx->makeUrl($cta['resource'], '', '', 'full');
         } else {
             $cta['href'] = '';
         }
@@ -45,14 +52,15 @@ switch ($cta['type']) {
 
         break;
     case 'external':
-        $cta['href'] = $cta['value'];
+        $cta['href']   = strpos($cta['value'], 'http') !== 0 ? 'http://' . $cta['value'] : $cta['value'];
         $cta['target'] = '_blank';
-        
-        if (!preg_match("~^(?:f|ht)tps?://~i", $cta['href'])) {
-            $cta['href'] = "http://" . $cta['href'];
-        }
+        $cta['rel']    = 'noopener';
 
         break;
 }
 
-return $modx->getChunk($chunk, $cta);
+if (!$toPlaceholders) {
+    return $parser->getChunk($chunk, $cta);
+}
+
+$modx->setPlaceholders($cta, $toPlaceholders);
