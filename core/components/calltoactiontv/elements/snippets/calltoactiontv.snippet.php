@@ -13,16 +13,23 @@
  * @var string $options
  * @var string $input
  */
+$service = $modx->getService(
+    'calltoactiontv',
+    'CallToActionTV',
+    $modx->getOption(
+        'calltoactiontv.core_path',
+        null,
+        $modx->getOption('core_path') . 'components/calltoactiontv/'
+    ) . 'model/calltoactiontv/'
+);
+
+if (!($service instanceof CallToActionTV)) {
+    return;
+}
 
 $cta            = $modx->fromJSON($input);
 $chunk          = (!empty($options)) ? $options : 'callToActionTV';
 $toPlaceholders = !empty($toPlaceholders) ? $toPlaceholders : false;
-$parser         = $modx;
-
-/* Overwrite with pdoparser for filebased chunks */
-if ($pdo = $modx->getService('pdoTools')) {
-    $parser = $pdo;
-}
 
 if (!is_array($cta) ||
     !isset($cta['type'], $cta['value'], $cta['style'], $cta['text'], $cta['resource'])) {
@@ -60,7 +67,7 @@ switch ($cta['type']) {
 }
 
 if (!$toPlaceholders) {
-    return $parser->getChunk($chunk, $cta);
+    return $service->getChunk($chunk, $cta);
 }
 
 $modx->setPlaceholders($cta, $toPlaceholders);
