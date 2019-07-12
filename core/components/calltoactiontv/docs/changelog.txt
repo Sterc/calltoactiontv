@@ -1,5 +1,10 @@
 Changelog for CallToActionTV.
 
+CallToActionTV 1.0.2
+==============
+- Improved parser handling
+- Fixed issue with empty check which would show JSON output
+
 CallToActionTV 1.0.1
 ==============
 - Added pdoParser support #2

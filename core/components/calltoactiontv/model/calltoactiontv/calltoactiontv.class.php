@@ -15,7 +15,7 @@ class CallToActionTV
     /**
      * The current version.
      */
-    public $version = '1.0.0';
+    public $version = '1.0.2';
 
     /**
      * The namespace for this service class.
@@ -26,6 +26,12 @@ class CallToActionTV
      * An array of configuration options.
      */
     public $config = array();
+
+    /**
+     * An array of cached chunk templates for processing
+     * @var array $chunks
+     */
+    public $chunks = [];
 
     /**
      * The main constructor for CallToActionTV.
@@ -73,6 +79,8 @@ class CallToActionTV
                 'css_url'         => $assetsUrl . 'css/',
                 'connector_url'   => $assetsUrl . 'connector.php',
                 'version'         => $this->version,
+                'use_multibyte'   => (bool) $this->modx->getOption('use_multibyte', null, false),
+                'encoding'        => $this->modx->getOption('modx_charset', null, 'UTF-8'),
             )
         );
 
@@ -130,5 +138,79 @@ class CallToActionTV
         ');
 
         return true;
+    }
+
+    /**
+     * Gets a Chunk and caches it; also falls back to file-based templates
+     * for easier debugging.
+     *
+     * Will always use the file-based chunk if $debug is set to true.
+     *
+     * @access public
+     * @param string $name The name of the Chunk
+     * @param array $properties The properties for the Chunk
+     * @return string The processed content of the Chunk
+     */
+    public function getChunk($name, $properties = array())
+    {
+        if (class_exists('pdoTools') && $pdo = $this->modx->getService('pdoTools')) {
+            return $pdo->getChunk($name, $properties);
+        }
+
+        $chunk = null;
+        if (substr($name, 0, 6) === '@CODE:') {
+            $content = substr($name, 6);
+            $chunk = $this->modx->newObject('modChunk');
+            $chunk->setContent($content);
+        } elseif (!isset($this->chunks[$name])) {
+            if (!$this->config['debug']) {
+                $chunk = $this->modx->getObject('modChunk', array('name' => $name), true);
+            }
+            if (empty($chunk)) {
+                $chunk = $this->getTplChunk($name);
+                if ($chunk === false) {
+                    return false;
+                }
+            }
+            $this->chunks[$name] = $chunk->getContent();
+        } else {
+            $content = $this->chunks[$name];
+            $chunk = $this->modx->newObject('modChunk');
+            $chunk->setContent($content);
+        }
+
+        $chunk->setCacheable(false);
+
+        return $chunk->process($properties);
+    }
+    /**
+     * Returns a modChunk object from a template file.
+     *
+     * @access private
+     * @param string $name The name of the Chunk. Will parse to name.chunk.tpl
+     *
+     * @return \modChunk|boolean Returns the modChunk object if found, otherwise
+     * false.
+     */
+    public function getTplChunk($name)
+    {
+        $chunk = false;
+        if (file_exists($name)) {
+            $file = $name;
+        } else {
+            $lowerCaseName = $this->config['use_multibyte'] ? mb_strtolower($name, $this->config['encoding']) : strtolower($name);
+            $file = $this->config['chunks_path'] . $lowerCaseName . '.chunk.tpl';
+        }
+
+
+        if (file_exists($file)) {
+            $content = file_get_contents($file);
+
+            /** @var \modChunk $chunk */
+            $chunk = $this->modx->newObject('modChunk');
+            $chunk->set('name', $name);
+            $chunk->setContent($content);
+        }
+        return $chunk;
     }
 }
