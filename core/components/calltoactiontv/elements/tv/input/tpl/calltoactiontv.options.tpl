@@ -60,6 +60,62 @@
             forId: 'inopt_styles{/literal}{$tv}{literal}',
             html: _('calltoactiontv.inopt_styles_desc'),
             cls: 'desc-under'
+        }, {
+            xtype: 'modx-combo-boolean',
+            fieldLabel: _('calltoactiontv.inopt_display_resource_id'),
+            description: MODx.expandHelp ? '' : _('calltoactiontv.inopt_display_resource_id_desc'),
+            hiddenName: 'inopt_display_resource_id',
+            id: 'inopt_display_resource_id{/literal}{$tv}{literal}',
+            value: params['display_resource_id'] || true,
+            anchor: '100%',
+            listeners: oc
+        }, {
+            xtype: MODx.expandHelp ? 'label' : 'hidden',
+            forId: 'inopt_display_resource_id{/literal}{$tv}{literal}',
+            html: _('calltoactiontv.inopt_display_resource_id_desc'),
+            cls: 'desc-under'
+        }, {
+            xtype: 'modx-combo-boolean',
+            fieldLabel: _('calltoactiontv.inopt_display_query_params'),
+            description: MODx.expandHelp ? '' : _('calltoactiontv.inopt_display_query_params_desc'),
+            hiddenName: 'inopt_display_query_params',
+            id: 'inopt_display_query_params{/literal}{$tv}{literal}',
+            value: params['display_query_params'] || true,
+            anchor: '100%',
+            listeners: oc
+        }, {
+            xtype: MODx.expandHelp ? 'label' : 'hidden',
+            forId: 'inopt_display_query_params{/literal}{$tv}{literal}',
+            html: _('calltoactiontv.inopt_display_query_params_desc'),
+            cls: 'desc-under'
+        }, {
+            xtype: 'modx-combo-boolean',
+            fieldLabel: _('calltoactiontv.inopt_limit_related_ctx'),
+            description: MODx.expandHelp ? '' : _('calltoactiontv.inopt_limit_related_ctx_desc'),
+            hiddenName: 'inopt_limit_related_ctx',
+            id: 'inopt_limit_related_ctx{/literal}{$tv}{literal}',
+            value: params['limit_related_ctx'] || '',
+            anchor: '100%',
+            listeners: oc
+        }, {
+            xtype: MODx.expandHelp ? 'label' : 'hidden',
+            forId: 'inopt_limit_related_ctx{/literal}{$tv}{literal}',
+            html: _('calltoactiontv.inopt_limit_related_ctx_desc'),
+            cls: 'desc-under'
+        }, {
+            xtype: 'textarea',
+            fieldLabel: _('calltoactiontv.inopt_where_conditions'),
+            description: MODx.expandHelp ? '' : _('calltoactiontv.inopt_where_conditions_desc'),
+            name: 'inopt_where_conditions',
+            id: 'inopt_where_conditions{/literal}{$tv}{literal}',
+            value: params['where_conditions'] || '',
+            anchor: '100%',
+            listeners: oc
+        }, {
+            xtype: MODx.expandHelp ? 'label' : 'hidden',
+            forId: 'inopt_where_conditions{/literal}{$tv}{literal}',
+            html: _('calltoactiontv.inopt_where_conditions_desc'),
+            cls: 'desc-under'
         }],
         renderTo: 'tv-input-properties-form{/literal}{$tv}{literal}'
     });
