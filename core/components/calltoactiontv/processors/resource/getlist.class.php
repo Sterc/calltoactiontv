@@ -112,6 +112,11 @@ class callToActionTVResourceGetListProcessor extends modObjectGetListProcessor
             ]);
         }
 
+        $query->where([
+            'deleted'   => false,
+            'published' => true
+        ]);
+
         if (isset($this->inputProperties['where_conditions']) && !empty($this->inputProperties['where_conditions'])) {
             $whereConditions = json_decode($this->inputProperties['where_conditions'], true);
 
@@ -128,12 +133,13 @@ class callToActionTVResourceGetListProcessor extends modObjectGetListProcessor
     {
         $data = parent::getData();
 
-        /* Make sure that selected resource is included in result. For instance if the resource is on second page it would only display the resource id. */
-        $selectedResource = $this->modx->getObject('modResource', $this->getProperty('selectedResourceId'));
-        if ($selectedResource) {
-            $data['results'][] = $selectedResource;
+        if (!$this->getProperty('query')) {
+            /* Make sure that selected resource is included in result. For instance if the resource is on second page it would only display the resource id. */
+            $selectedResource = $this->modx->getObject('modResource', $this->getProperty('selectedResourceId'));
+            if ($selectedResource) {
+                $data['results'][] = $selectedResource;
+            }
         }
-
 
         return $data;
     }
