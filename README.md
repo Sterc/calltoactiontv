@@ -1,3 +1,4 @@
+<?php
 # CallToActionTV
 ![calltoactiontv version](https://img.shields.io/badge/version-1.0.1-blue.svg) ![MODX Extra by Sterc](https://img.shields.io/badge/checked%20by-sterc-ff69b4.svg) ![MODX version requirements](https://img.shields.io/badge/modx%20version%20requirement-2.0%2B-brightgreen.svg)
 
@@ -18,13 +19,13 @@ In order to use a custom chunk you simply specify a chunk name like this:
 
 Or, if you are using it as a snippet:
 [[calltoactiontv?
-    &input=`ctatv`
+    &input=`[[*ctatv]]`
     &options=`MyCustomChunk`
 ]]
 
 Using toPlaceholders:
 [[calltoactiontv?
-    &input=`ctatv`
+    &input=`[[*ctatv]]`
     &options=`MyCustomChunk`
     &toPlaceholders=`ctatv.`
 ]]
