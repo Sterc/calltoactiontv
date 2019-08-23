@@ -1,5 +1,10 @@
 Changelog for CallToActionTV.
 
+CallToActionTV 1.0.3
+==============
+- Added extra option for adding GET parameters
+- Paginated resource results
+
 CallToActionTV 1.0.2
 ==============
 - Improved parser handling
