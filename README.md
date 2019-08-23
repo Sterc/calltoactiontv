@@ -1,3 +1,4 @@
+<?php
 # CallToActionTV
 ![calltoactiontv version](https://img.shields.io/badge/version-1.0.1-blue.svg) ![MODX Extra by Sterc](https://img.shields.io/badge/checked%20by-sterc-ff69b4.svg) ![MODX version requirements](https://img.shields.io/badge/modx%20version%20requirement-2.0%2B-brightgreen.svg)
 
@@ -18,13 +19,13 @@ In order to use a custom chunk you simply specify a chunk name like this:
 
 Or, if you are using it as a snippet:
 [[calltoactiontv?
-    &input=`ctatv`
+    &input=`[[*ctatv]]`
     &options=`MyCustomChunk`
 ]]
 
 Using toPlaceholders:
 [[calltoactiontv?
-    &input=`ctatv`
+    &input=`[[*ctatv]]`
     &options=`MyCustomChunk`
     &toPlaceholders=`ctatv.`
 ]]
@@ -33,6 +34,9 @@ Using toPlaceholders:
     [[+ctatv.text]]
 </a>
 ```
+
+### Input Option Values
+If left empty all non-deleted and published resources will be retrieved using pagination. If input options are specified then pagination will occur, but the full list of options is retrieved once, so it is not optimized for speed.
 
 # Free Extra
 This is a free extra and the code is publicly available for you to change. The extra is being actively maintained and you're free to put in pull requests which match our roadmap. Please create an issue if the pull request differs from the roadmap so we can make sure we're on the same page.

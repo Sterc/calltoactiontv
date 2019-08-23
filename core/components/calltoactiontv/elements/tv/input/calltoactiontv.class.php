@@ -47,41 +47,37 @@ class CallToActionTVInputRender extends modTemplateVarInputRender
      */
     public function process($value, array $params = array())
     {
-        /**
-         * Retrieve TV information.
-         */
+        /* Retrieve TV information. */
         $properties = array_merge($params, is_array($this->tv->_properties) ?
             $this->tv->_properties :
             array());
 
         $inputOptions = $this->getInputOptions();
 
-        /**
-         * Default values.
-         */
-        $values['type']     = 'resource';
-        $values['style']    = null;
-        $values['text']     = '';
-        $values['resource'] = '';
-        $values['value']    = '';
+        /* Default values. */
+        $values['type']         = 'resource';
+        $values['style']        = null;
+        $values['text']         = '';
+        $values['resource']     = '';
+        $values['query_params'] = '';
+        $values['value']        = '';
 
-        /**
-         * Set values.
-         */
+        /* Set values. */
         $decodedValue = $this->modx->fromJSON($value);
         if (is_array($decodedValue)) {
             $values = array_merge($values, $this->modx->fromJSON($value));
         }
 
-        /**
-         * Set placeholders.
-         */
+
+        /* Set placeholders. */
         $this->setPlaceholder('value', $values['value']);
         $this->setPlaceholder('text', addslashes($values['text']));
         $this->setPlaceholder('type', $values['type']);
+        $this->setPlaceholder('displayQueryParams', isset($this->tv->get('input_properties')['display_query_params']) ? $this->tv->get('input_properties')['display_query_params'] : false);
         $this->setPlaceholder('typeOptions', $this->getTypes($properties));
         $this->setPlaceholder('styleOptions', $this->getStyles($values['style'], $properties));
-        $this->setPlaceholder('resourceOptions', $this->getResources($values['resource'], $inputOptions));
+        $this->setPlaceholder('resource', $values['resource']);
+        $this->setPlaceholder('query_params', $values['query_params']);
     }
 
     /**
@@ -168,51 +164,6 @@ class CallToActionTVInputRender extends modTemplateVarInputRender
         }
 
         $this->setPlaceholder('style', $value);
-
-        return $this->modx->toJSON($options);
-    }
-
-    /**
-     * Format the resources.
-     *
-     * @param string $value
-     * @param array $inputOptions
-     *
-     * @return string
-     */
-    private function getResources($value, array $inputOptions = array())
-    {
-        $options = array();
-
-        $found = false;
-        foreach ($inputOptions as $inputOption) {
-            $opt = explode('==', $inputOption);
-            if (!isset($opt[1])) {
-                $opt[1] = $opt[0];
-            }
-
-            if ($value === $opt[1]) {
-                $found = true;
-            }
-
-            $options[] = array(
-                htmlspecialchars(trim($opt[1])),
-                htmlspecialchars(trim($opt[0]))
-            );
-        }
-
-        if (!empty($value) && $found === false) {
-            if (!empty($options)) {
-                $options[] = array(
-                    htmlspecialchars(trim($value)),
-                    htmlspecialchars(trim($value))
-                );
-            } else {
-                $value = '';
-            }
-        }
-
-        $this->setPlaceholder('resource', $value);
 
         return $this->modx->toJSON($options);
     }

@@ -40,7 +40,12 @@ $cta['target'] = '';
 switch ($cta['type']) {
     case 'resource':
         if (!empty($cta['resource'])) {
-            $cta['href'] = $modx->makeUrl($cta['resource'], '', '', 'full');
+            $params = [];
+            if (!empty($cta['query_params'])) {
+                parse_str(ltrim($cta['query_params'], '?'), $params);
+            }
+            
+            $cta['href'] = $modx->makeUrl($cta['resource'], '', $params, 'full');
         } else {
             $cta['href'] = '';
         }

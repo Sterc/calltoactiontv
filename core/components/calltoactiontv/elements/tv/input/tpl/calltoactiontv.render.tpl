@@ -11,10 +11,11 @@
             typeOptions: {$typeOptions},
             style: '{$style}',
             styleOptions: {$styleOptions},
+            displayQueryParams: '{$displayQueryParams}',
             text: '{$text}',
             value: '{$value}',
             resource: '{$resource}',
-            resourceOptions: {$resourceOptions},
+            query_params: '{$query_params}',
             renderTo: 'modx-calltoactiontv-tv{$tv->id}'{literal}
         });
     });{/literal}
