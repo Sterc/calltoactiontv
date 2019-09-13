@@ -81,7 +81,7 @@ CallToActionTV.combo.CallToActionTV = function (config) {
                     width: 200,
                     baseParams: {
                         action: 'resource/getlist',
-                        tvId: config.tvId,
+                        tvId: config.ctaTvId,
                         resourceId: MODx.request.id,
                         selectedResourceId: config.resource
                     },

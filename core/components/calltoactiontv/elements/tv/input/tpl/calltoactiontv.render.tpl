@@ -7,6 +7,7 @@
         MODx.load({{/literal}
             xtype: 'calltoactiontv-combo-calltoactiontv',
             tvId: '{$tv->id}',
+			ctaTvId: '{$ctaTvId}',
             type: '{$type}',
             typeOptions: {$typeOptions},
             style: '{$style}',
