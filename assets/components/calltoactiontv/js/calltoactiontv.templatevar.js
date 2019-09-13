@@ -110,10 +110,6 @@ CallToActionTV.combo.CallToActionTV = function (config) {
                     fieldLabel: _('calltoactiontv.query_params'),
                     autoWidth: true,
                     listeners: {
-                        beforerender: {
-                            fn: this.ctaBeforeRender,
-                            scope: this
-                        },
                         change: {
                             fn: this.ctaOnChange,
                             scope: this
@@ -124,13 +120,7 @@ CallToActionTV.combo.CallToActionTV = function (config) {
                     cls: 'calltoactiontv-help',
                     html: _('calltoactiontv.query_params_placeholder'),
                     xtype: 'panel',
-                    autoWidth: true,
-                    listeners: {
-                        beforerender: {
-                            fn: this.ctaBeforeRender,
-                            scope: this
-                        }
-                    }
+                    autoWidth: true
                 }
             ]
         }, {
