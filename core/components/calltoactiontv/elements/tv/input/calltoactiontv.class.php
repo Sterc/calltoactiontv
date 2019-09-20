@@ -67,9 +67,11 @@ class CallToActionTVInputRender extends modTemplateVarInputRender
         if (is_array($decodedValue)) {
             $values = array_merge($values, $this->modx->fromJSON($value));
         }
-
-
+		
+		$ctaTvId = $properties['inputTVid'] ? $properties['inputTVid'] : $this->tv->id;
+		
         /* Set placeholders. */
+		$this->setPlaceholder('ctaTvId', $ctaTvId);
         $this->setPlaceholder('value', $values['value']);
         $this->setPlaceholder('text', addslashes($values['text']));
         $this->setPlaceholder('type', $values['type']);
