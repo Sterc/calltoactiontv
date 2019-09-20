@@ -15,7 +15,7 @@ class CallToActionTV
     /**
      * The current version.
      */
-    public $version = '1.0.2';
+    public $version = '1.0.3';
 
     /**
      * The namespace for this service class.
