@@ -71,7 +71,7 @@ class CallToActionTVInputRender extends modTemplateVarInputRender
 		$ctaTvId = $properties['inputTVid'] ? $properties['inputTVid'] : $this->tv->id;
 		
         /* Set placeholders. */
-		$this->setPlaceholder('ctaTvId', $ctaTvId);
+        $this->setPlaceholder('ctaTvId', $ctaTvId);
         $this->setPlaceholder('value', $values['value']);
         $this->setPlaceholder('text', addslashes($values['text']));
         $this->setPlaceholder('type', $values['type']);
