@@ -58,7 +58,7 @@ class callToActionTVResourceGetListProcessor extends modObjectGetListProcessor
             if ($this->tvObject && !empty(trim($this->tvObject->get('elements')))) {
                 $options = [];
 
-                foreach (explode('||', $this->tvObject->processBindings($this->tvObject->get('elements'))) as $item) {
+                foreach (explode('||', $this->tvObject->processBindings($this->tvObject->get('elements'), $this->getProperty('resourceId'))) as $item) {
                     list($pagetitle, $id) = explode('==', $item);
 
                     $options[] = [
