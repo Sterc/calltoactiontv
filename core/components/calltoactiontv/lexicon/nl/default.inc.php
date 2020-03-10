@@ -22,10 +22,11 @@ $_lang['calltoactiontv.text']  = 'Link tekst';
 $_lang['calltoactiontv.style'] = 'Opmaak';
 $_lang['calltoactiontv.target'] = 'Open';
 
-$_lang['calltoactiontv.text_placeholder']     = 'bijv: Neem contact op';
-$_lang['calltoactiontv.tel_placeholder']      = 'bijv: +31612345678';
-$_lang['calltoactiontv.mailto_placeholder']   = 'bijv: info@domein.nl';
-$_lang['calltoactiontv.external_placeholder'] = 'bijv: https://www.google.com';
+$_lang['calltoactiontv.text_placeholder']         = 'bijv: Neem contact op';
+$_lang['calltoactiontv.tel_placeholder']          = 'bijv: +31612345678';
+$_lang['calltoactiontv.mailto_placeholder']       = 'bijv: info@domein.nl';
+$_lang['calltoactiontv.external_placeholder']     = 'bijv: https://www.google.com';
+$_lang['calltoactiontv.query_params_placeholder'] = 'bijv: ?param=1&secondparam=2';
 
 $_lang['calltoactiontv.type.resource'] = 'Pagina';
 $_lang['calltoactiontv.type.tel']      = 'Telefoonnummer';
