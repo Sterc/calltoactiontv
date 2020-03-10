@@ -1,5 +1,9 @@
 Changelog for CallToActionTV.
 
+CallToActionTV 1.0.5
+==============
+- Add missing Dutch lexicon
+
 CallToActionTV 1.0.4
 ==============
 - Add support for MIGX
