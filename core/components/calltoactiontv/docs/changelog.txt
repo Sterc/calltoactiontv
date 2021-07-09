@@ -1,5 +1,11 @@
 Changelog for CallToActionTV.
 
+CallToActionTV 1.0.6
+==============
+- Show resource pagetitle when selected is not on first page (fixes issue #14). Thanks to kinaz (PR #15)
+- Fix selecting resources from different contexts (PR #12)
+- Fix xPDOQuery argument in prepareQueryBeforeCount method (fixes issue #13)
+
 CallToActionTV 1.0.5
 ==============
 - Add missing Dutch lexicon
