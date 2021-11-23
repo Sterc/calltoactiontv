@@ -1,4 +1,6 @@
-<?php /** @noinspection AutoloadingIssuesInspection */
+<?php
+
+/** @noinspection AutoloadingIssuesInspection */
 /**
  * CallToActionTV.
  *
@@ -67,17 +69,21 @@ class CallToActionTVInputRender extends modTemplateVarInputRender
         if (is_array($decodedValue)) {
             $values = array_merge($values, $this->modx->fromJSON($value));
         }
-		
-		$ctaTvId = $properties['inputTVid'] ? $properties['inputTVid'] : $this->tv->id;
-		
+
+        $ctaTvId = $properties['inputTVid'] ? $properties['inputTVid'] : $this->tv->id;
+
         /* Set placeholders. */
         $this->setPlaceholder('ctaTvId', $ctaTvId);
         $this->setPlaceholder('value', $values['value']);
         $this->setPlaceholder('text', addslashes($values['text']));
         $this->setPlaceholder('type', $values['type']);
         $this->setPlaceholder('displayQueryParams', isset($this->tv->get('input_properties')['display_query_params']) ? $this->tv->get('input_properties')['display_query_params'] : false);
-        $this->setPlaceholder('typeOptions', $this->getTypes($properties));
-        $this->setPlaceholder('styleOptions', $this->getStyles($values['style'], $properties));
+        $typeOptions = str_replace('[[', '[ [', $this->getTypes($properties));
+        $typeOptions = str_replace(']]', '] ]', $typeOptions);
+        $this->setPlaceholder('typeOptions', $typeOptions);
+        $styleOptions = str_replace('[[', '[ [', $this->getStyles($values['style'], $properties));
+        $styleOptions = str_replace(']]', '] ]', $styleOptions);
+        $this->setPlaceholder('styleOptions', $styleOptions);
         $this->setPlaceholder('resource', $values['resource']);
         $this->setPlaceholder('query_params', $values['query_params']);
     }
