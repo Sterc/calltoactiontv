@@ -111,7 +111,7 @@ class callToActionTVResourceGetListProcessor extends modObjectGetListProcessor
      * @param xPDOQuery $query
      * @return xPDOQuery
      */
-    public function prepareQueryBeforeCount(xPDOQuery $c)
+    public function prepareQueryBeforeCount(xPDOQuery $query)
     {
         if ($this->tvObject) {
             /* Check if only resources related to the current resource context should be retrieved. */
