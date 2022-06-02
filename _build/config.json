@@ -3,7 +3,7 @@
   "lowCaseName": "calltoactiontv",
   "description": "Call To Action TV package.",
   "author": "Sterc",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "package":{
     "menus": [],
     "elements": {

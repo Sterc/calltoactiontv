@@ -1,5 +1,5 @@
 # CallToActionTV
-![calltoactiontv version](https://img.shields.io/badge/version-1.0.5-blue.svg) ![MODX Extra by Sterc](https://img.shields.io/badge/checked%20by-sterc-ff69b4.svg) ![MODX version requirements](https://img.shields.io/badge/modx%20version%20requirement-2.0%2B-brightgreen.svg)
+![calltoactiontv version](https://img.shields.io/badge/version-1.0.8-blue.svg) ![MODX Extra by Sterc](https://img.shields.io/badge/checked%20by-sterc-ff69b4.svg) ![MODX version requirements](https://img.shields.io/badge/modx%20version%20requirement-2.0%2B-brightgreen.svg)
 
 ## Usage
 
