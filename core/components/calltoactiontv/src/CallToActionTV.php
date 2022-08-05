@@ -1,4 +1,9 @@
-<?php /** @noinspection AutoloadingIssuesInspection */
+<?php
+namespace Sterc\CallToActionTV;
+
+use MODX\Revolution\modX;
+
+/** @noinspection AutoloadingIssuesInspection */
 /**
  * CallToActionTV.
  *
@@ -15,7 +20,7 @@ class CallToActionTV
     /**
      * The current version.
      */
-    public $version = '1.0.3';
+    public $version = '3.0.0';
 
     /**
      * The namespace for this service class.
@@ -39,7 +44,7 @@ class CallToActionTV
      * @param modX  $instance
      * @param array $config
      */
-    public function __construct(modX $instance, array $config = array())
+    public function __construct(modX $instance, array $config = [])
     {
         $this->modx      = $instance;
         $this->namespace = $this->modx->getOption('namespace', $config, 'calltoactiontv');
@@ -65,10 +70,10 @@ class CallToActionTV
 
         $this->config = array_merge(
             $this->config,
-            array(
+            [
                 'namespace'       => $this->namespace,
                 'core_path'       => $corePath,
-                'model_path'      => $corePath . 'model/',
+                'model_path'      => $corePath . 'src/',
                 'chunks_path'     => $corePath . 'elements/chunks/',
                 'snippets_path'   => $corePath . 'elements/snippets/',
                 'templates_path'  => $corePath . 'templates/',
@@ -81,7 +86,7 @@ class CallToActionTV
                 'version'         => $this->version,
                 'use_multibyte'   => (bool) $this->modx->getOption('use_multibyte', null, false),
                 'encoding'        => $this->modx->getOption('modx_charset', null, 'UTF-8'),
-            )
+            ]
         );
 
         $this->modx->addPackage('calltoactiontv', $this->config['model_path']);
@@ -95,20 +100,18 @@ class CallToActionTV
      */
     public function loadSettingsFromNamespace()
     {
-        $config = array();
+        $config = [];
 
         $c = $this->modx->newQuery('modSystemSetting');
-        $c->where(array(
-            'key:LIKE' => $this->namespace . '.%'
-        ));
+        $c->where(['key:LIKE' => $this->namespace . '.%']);
         $c->limit(0);
 
         /** @var \modSystemSetting[] $iterator */
         $iterator = $this->modx->getIterator('modSystemSetting', $c);
         foreach ($iterator as $setting) {
-            $key = $setting->get('key');
-            $key = substr($key, strlen($this->namespace) + 1);
-            $config[$key] = $setting->get('value');
+            $key            = $setting->get('key');
+            $key            = substr($key, strlen($this->namespace) + 1);
+            $config[$key]   = $setting->get('value');
         }
 
         return $config;
@@ -134,7 +137,8 @@ class CallToActionTV
         );
 
         $this->modx->controller->addHtml('
-            <script type="text/javascript">CallToActionTV.config = ' . json_encode($this->config) . ';</script>
+            <script type="text/javascript">
+                CallToActionTV.config = ' . json_encode($this->config) . ';</script>
         ');
 
         return true;
@@ -160,22 +164,24 @@ class CallToActionTV
         $chunk = null;
         if (substr($name, 0, 6) === '@CODE:') {
             $content = substr($name, 6);
-            $chunk = $this->modx->newObject('modChunk');
+            $chunk   = $this->modx->newObject('modChunk');
             $chunk->setContent($content);
         } elseif (!isset($this->chunks[$name])) {
             if (!$this->config['debug']) {
-                $chunk = $this->modx->getObject('modChunk', array('name' => $name), true);
+                $chunk = $this->modx->getObject('modChunk', ['name' => $name], true);
             }
+
             if (empty($chunk)) {
                 $chunk = $this->getTplChunk($name);
                 if ($chunk === false) {
                     return false;
                 }
             }
+
             $this->chunks[$name] = $chunk->getContent();
         } else {
             $content = $this->chunks[$name];
-            $chunk = $this->modx->newObject('modChunk');
+            $chunk   = $this->modx->newObject('modChunk');
             $chunk->setContent($content);
         }
 
@@ -199,9 +205,8 @@ class CallToActionTV
             $file = $name;
         } else {
             $lowerCaseName = $this->config['use_multibyte'] ? mb_strtolower($name, $this->config['encoding']) : strtolower($name);
-            $file = $this->config['chunks_path'] . $lowerCaseName . '.chunk.tpl';
+            $file          = $this->config['chunks_path'] . $lowerCaseName . '.chunk.tpl';
         }
-
 
         if (file_exists($file)) {
             $content = file_get_contents($file);
@@ -211,6 +216,7 @@ class CallToActionTV
             $chunk->set('name', $name);
             $chunk->setContent($content);
         }
+
         return $chunk;
     }
 }

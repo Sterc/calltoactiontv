@@ -1,5 +1,9 @@
 Changelog for CallToActionTV.
 
+CallToActionTV 3.0.0
+==============
+- MODX3 refactor
+
 CallToActionTV 1.0.8
 ==============
 - Fixed PHP warning: Undefined array key "inputTVid"
