@@ -1,4 +1,6 @@
 <?php
+namespace Sterc\CallToActionTV\Processors\Resource;
+
 use MODX\Revolution\modX;
 use xPDO\Om\xPDOQuery;
 use xPDO\Om\xPDOObject;
@@ -19,7 +21,7 @@ use MODX\Revolution\modTemplateVar;
  * @package modx
  * @subpackage processors.resource
  */
-class callToActionTVResourceGetListProcessor extends GetListProcessor
+class GetList extends GetListProcessor
 {
     public $classKey = 'modResource';
     public $languageTopics = ['resource'];
@@ -31,7 +33,7 @@ class callToActionTVResourceGetListProcessor extends GetListProcessor
     protected $inputProperties = [];
 
     /**
-     * calltoactiontvResourceGetListProcessor constructor.
+     * GetList constructor.
      *
      * @param modX $modx
      * @param array $properties
