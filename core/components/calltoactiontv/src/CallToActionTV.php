@@ -2,6 +2,8 @@
 namespace Sterc\CallToActionTV;
 
 use MODX\Revolution\modX;
+use MODX\Revolution\modChunk;
+use MODX\Revolution\modSystemSetting;
 
 /** @noinspection AutoloadingIssuesInspection */
 /**
@@ -102,12 +104,12 @@ class CallToActionTV
     {
         $config = [];
 
-        $c = $this->modx->newQuery('modSystemSetting');
+        $c = $this->modx->newQuery(modSystemSetting::class);
         $c->where(['key:LIKE' => $this->namespace . '.%']);
         $c->limit(0);
 
         /** @var \modSystemSetting[] $iterator */
-        $iterator = $this->modx->getIterator('modSystemSetting', $c);
+        $iterator = $this->modx->getIterator(modSystemSetting::class, $c);
         foreach ($iterator as $setting) {
             $key            = $setting->get('key');
             $key            = substr($key, strlen($this->namespace) + 1);
@@ -157,18 +159,19 @@ class CallToActionTV
      */
     public function getChunk($name, $properties = array())
     {
-        if (class_exists('pdoTools') && $pdo = $this->modx->getService('pdoTools')) {
-            return $pdo->getChunk($name, $properties);
+        if (class_exists('ModxPro\PdoTools\Fetch') && $this->modx->services->has('pdofetch')) {
+            $pdo = $this->modx->services->get('pdofetch');
+			return $pdo->getChunk($name, $properties);
         }
 
         $chunk = null;
         if (substr($name, 0, 6) === '@CODE:') {
             $content = substr($name, 6);
-            $chunk   = $this->modx->newObject('modChunk');
+            $chunk = $this->modx->newObject(modChunk::class);
             $chunk->setContent($content);
         } elseif (!isset($this->chunks[$name])) {
             if (!$this->config['debug']) {
-                $chunk = $this->modx->getObject('modChunk', ['name' => $name], true);
+                $chunk = $this->modx->getObject(modChunk::class, ['name' => $name], true);
             }
 
             if (empty($chunk)) {
@@ -181,7 +184,7 @@ class CallToActionTV
             $this->chunks[$name] = $chunk->getContent();
         } else {
             $content = $this->chunks[$name];
-            $chunk   = $this->modx->newObject('modChunk');
+            $chunk   = $this->modx->newObject(modChunk::class);
             $chunk->setContent($content);
         }
 
@@ -212,7 +215,7 @@ class CallToActionTV
             $content = file_get_contents($file);
 
             /** @var \modChunk $chunk */
-            $chunk = $this->modx->newObject('modChunk');
+            $chunk = $this->modx->newObject(modChunk::class);
             $chunk->set('name', $name);
             $chunk->setContent($content);
         }
