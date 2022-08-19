@@ -1,4 +1,7 @@
-<?php /** @noinspection AutoloadingIssuesInspection */
+<?php
+use MODX\Revolution\modTemplateVarInputRender;
+
+/** @noinspection AutoloadingIssuesInspection */
 /**
  * CallToActionTV.
  *
@@ -9,7 +12,7 @@ class CallToActionTVInputRender extends modTemplateVarInputRender
     /**
      * The allowed link types.
      */
-    private $allowedTypes = array('resource', 'external', 'mailto', 'tel');
+    private $allowedTypes = ['resource', 'external', 'mailto', 'tel'];
 
     /**
      * Return the template path to load.
@@ -18,11 +21,7 @@ class CallToActionTVInputRender extends modTemplateVarInputRender
      */
     public function getTemplate()
     {
-        $corePath = $this->modx->getOption(
-            'calltoactiontv.core_path',
-            null,
-            $this->modx->getOption('core_path') . 'components/calltoactiontv/'
-        );
+        $corePath = $this->modx->getOption('calltoactiontv.core_path', null, $this->modx->getOption('core_path') . 'components/calltoactiontv/');
 
         return $corePath . 'elements/tv/input/tpl/calltoactiontv.render.tpl';
     }
@@ -34,7 +33,7 @@ class CallToActionTVInputRender extends modTemplateVarInputRender
      */
     public function getLexiconTopics()
     {
-        return array('calltoactiontv:default');
+        return ['calltoactiontv:default'];
     }
 
     /**
@@ -45,14 +44,10 @@ class CallToActionTVInputRender extends modTemplateVarInputRender
      *
      * @return void
      */
-    public function process($value, array $params = array())
+    public function process($value, array $params = [])
     {
         /* Retrieve TV information. */
-        $properties = array_merge($params, is_array($this->tv->_properties) ?
-            $this->tv->_properties :
-            array());
-
-        $inputOptions = $this->getInputOptions();
+        $properties = array_merge($params, is_array($this->tv->_properties) ? $this->tv->_properties : []);
 
         /* Default values. */
         $values['type']         = 'resource';
@@ -89,9 +84,9 @@ class CallToActionTVInputRender extends modTemplateVarInputRender
      *
      * @return string
      */
-    private function getTypes(array $properties = array())
+    private function getTypes(array $properties = [])
     {
-        $options = array();
+        $options = [];
         if (isset($properties['types'])) {
             $types = explode('||', $properties['types']);
 
@@ -99,10 +94,10 @@ class CallToActionTVInputRender extends modTemplateVarInputRender
                 $type = trim($type);
 
                 if (in_array($type, $this->allowedTypes, true)) {
-                    $options[] = array(
+                    $options[] = [
                         htmlspecialchars($type),
                         $this->modx->lexicon('calltoactiontv.type.' . $type)
-                    );
+                    ];
                 }
             }
         }
@@ -118,7 +113,7 @@ class CallToActionTVInputRender extends modTemplateVarInputRender
      *
      * @return string
      */
-    private function getStyles($value, array $properties = array())
+    private function getStyles($value, array $properties = [])
     {
         $options = array();
 
@@ -145,10 +140,10 @@ class CallToActionTVInputRender extends modTemplateVarInputRender
                     $found = true;
                 }
 
-                $options[] = array(
+                $options[] = [
                     htmlspecialchars(trim($opt[1])),
                     htmlspecialchars(trim($opt[0]))
-                );
+                ];
 
                 ++$i;
             }
@@ -156,10 +151,10 @@ class CallToActionTVInputRender extends modTemplateVarInputRender
 
         if (!empty($value) && $found === false) {
             if (!empty($options)) {
-                $options[] = array(
+                $options[] = [
                     htmlspecialchars(trim($value)),
                     htmlspecialchars(trim($value))
-                );
+                ];
             } else {
                 $value = '';
             }

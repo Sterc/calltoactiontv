@@ -12,13 +12,7 @@
  *
  * @var modX $modx
  */
-
-$corePath = $modx->getOption(
-    'calltoactiontv.core_path',
-    null,
-    $modx->getOption('core_path') . 'components/calltoactiontv/'
-);
-$callToActionTV = $modx->getService('calltoactiontv', 'CallToActionTV', $corePath . 'model/calltoactiontv/');
+$callToActionTV = $modx->services->get('calltoactiontv');
 
 switch ($modx->event->name) {
     case 'OnManagerPageBeforeRender':
@@ -27,11 +21,11 @@ switch ($modx->event->name) {
 
         break;
     case 'OnTVInputRenderList':
-        $modx->event->output($corePath . 'elements/tv/input/');
+        $modx->event->output($callToActionTV->config['core_path'] . 'elements/tv/input/');
 
         break;
     case 'OnTVInputPropertiesList':
-        $modx->event->output($corePath . 'elements/tv/input/options/');
+        $modx->event->output($callToActionTV->config['core_path'] . 'elements/tv/input/options/');
 
         break;
     case 'OnDocFormRender':

@@ -80,7 +80,7 @@ CallToActionTV.combo.CallToActionTV = function (config) {
                     autoWidth: true,
                     width: 200,
                     baseParams: {
-                        action: 'resource/getlist',
+                        action: 'Sterc\\CallToActionTV\\Processors\\Resource\\GetList',
                         tvId: config.ctaTvId,
                         resourceId: MODx.request.id,
                         selectedResourceId: config.resource

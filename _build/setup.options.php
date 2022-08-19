@@ -1,32 +1,36 @@
 <?php
 /**
- * CallToActionTV setup options.
+ * CallToActionTV setup options
  *
- * @package calltoactiontv
+ * @package CallToActionTV
  * @subpackage build
  */
+use MODX\Revolution\modSystemSetting;
+use xPDO\Transport\xPDOTransport;
+
 $package = 'CallToActionTV';
 
-$settings = array(
-    array(
-        'key' => 'user_name',
+$settings = [
+    [
+        'key'   => 'user_name',
         'value' => '',
-        'name' => 'Name'
-    ),
-    array(
-        'key' => 'user_email',
+        'name'  => 'Name'
+    ],
+    [
+        'key'   => 'user_email',
         'value' => '',
-        'name' => 'Email address'
-    ),
-);
-
+        'name'  => 'Email address'
+    ]
+];
 switch ($options[xPDOTransport::PACKAGE_ACTION]) {
     case xPDOTransport::ACTION_INSTALL:
     case xPDOTransport::ACTION_UPGRADE:
         foreach ($settings as $key => $setting) {
             $settingObject = $modx->getObject(
-                'modSystemSetting',
-                array('key' => strtolower($package) . '.' . $setting['key'])
+                modSystemSetting::class,
+                [
+                    'key' => strtolower($package) . '.' . $setting['key']
+                ]
             );
             if ($settingObject) {
                 $settings[$key]['value'] = $settingObject->get('value');
@@ -37,17 +41,28 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
         break;
 }
 
-$output = array();
+/* Hide default setuptoptions text */
+$output[] = '
+<style type="text/css">
+    #modx-setupoptions-panel { display: none; }
+</style>
+
+<script>
+    var setupTitle = "ClientSupport installation - a MODX Extra by Sterc";
+    document.getElementsByClassName("x-window-header-text")[0].innerHTML = setupTitle;
+</script>
+
+<h2>Get free priority updates</h2>
+<p>Enter your name and email address below to receive priority updates about our extras.
+Be the first to know about updates and new features.
+<i><b>It is NOT required to enter your name and email to use this extra.</b></i></p>';
+
 foreach ($settings as $setting) {
-    $str = '<label for="'. $setting['key'] .'">'. $setting['name'] .': (optional)</label>';
-    $str .= '<input type="text" name="'. $setting['key'] .'"';
-    $str .= ' id="'. $setting['key'] .'" width="300" value="'. $setting['value'] .'" />';
+    $str = '<label for="' . $setting['key'] .'">' . $setting['name'] . ' (optional)</label>';
+    $str .= '<input type="text" name="' . $setting['key'] . '"';
+    $str .= ' id="' . $setting['key'] . '" width="300" value="' . $setting['value'] . '" />';
 
     $output[] = $str;
 }
-
-$output[] = '<p>Please enter your name and email address below to receive priority updates about our extras.
-Be the first to know about Extra updates and new features. <i>This is not required to use our extras.</i><br></p>';
-
 
 return implode('<br /><br />', $output);

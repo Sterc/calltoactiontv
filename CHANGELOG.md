@@ -1,5 +1,15 @@
 Changelog for CallToActionTV.
 
+CallToActionTV 3.0.1
+==============
+- Fixed GetList processor to prevent error.
+- Fix modx class references in getObject/newObject etc.
+- Fix pdoTools/pdoFetch checks, replace getService.
+
+CallToActionTV 3.0.0
+==============
+- MODX3 refactor
+
 CallToActionTV 1.0.8
 ==============
 - Fixed PHP warning: Undefined array key "inputTVid"
