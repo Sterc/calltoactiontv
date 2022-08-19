@@ -1,26 +1,26 @@
 <?php
 /**
- * CallToActionTV setup options resolver.
+ * CallToActionTV setup options resolver
  *
- * @package calltoactiontv
+ * @package CallToActionTV
  * @subpackage build
  */
+use MODX\Revolution\modSystemSetting;
+use xPDO\xPDO;
+use xPDO\Transport\xPDOTransport;
+
 $package = 'CallToActionTV';
 
 $success = false;
 switch ($options[xPDOTransport::PACKAGE_ACTION]) {
     case xPDOTransport::ACTION_INSTALL:
     case xPDOTransport::ACTION_UPGRADE:
-        $settings = array(
-            'user_name',
-            'user_email',
-        );
-
+        $settings = ['user_name', 'user_email'];
         foreach ($settings as $key) {
             if (isset($options[$key])) {
-                $settingObject = $object->xpdo->getObject(
-                    'modSystemSetting',
-                    array('key' => strtolower($package) . '.' . $key)
+                $settingObject = $transport->xpdo->getObject(
+                    modSystemSetting::class,
+                    ['key' => strtolower($package) . '.' . $key]
                 );
 
                 if ($settingObject) {
@@ -30,10 +30,7 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
                     $error = '[' . $package . '] ' . strtolower($package) . '.' . $key . ' setting could not be found,';
                     $error .= ' so the setting could not be changed.';
 
-                    $object->xpdo->log(
-                        xPDO::LOG_LEVEL_ERROR,
-                        $error
-                    );
+                    $transport->xpdo->log(xPDO::LOG_LEVEL_ERROR, $error);
                 }
             }
         }

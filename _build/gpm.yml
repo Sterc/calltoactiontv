@@ -1,0 +1,33 @@
+name: CallToActionTV
+lowCaseName: calltoactiontv
+description: Call To Action TV package.
+author: Sterc
+version: 3.0.1
+
+build:
+  setupOptions: "setup.options.php"
+  scriptsAfter: ["setupoptions.resolver.php", "stercextra.resolver.php"]
+
+systemSettings:
+  - key: user_name
+    type: textfield
+    area: general
+    value:
+  - key: user_email
+    type: textfield
+    area: general
+    value:
+
+chunks:
+  - name: callToActionTV
+    file: calltoactiontv.chunk.tpl
+
+snippets:
+  - name: calltoactiontv
+    file: calltoactiontv.snippet.php
+
+plugins:
+  - name: CallToActionTV
+    description:
+    file: 'calltoactiontv.plugin.php'
+    events: ['OnTVInputRenderList', 'OnTVInputPropertiesList', 'OnManagerPageBeforeRender', 'OnDocFormRender']

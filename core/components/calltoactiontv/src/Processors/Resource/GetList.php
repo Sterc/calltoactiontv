@@ -1,4 +1,12 @@
 <?php
+namespace Sterc\CallToActionTV\Processors\Resource;
+
+use MODX\Revolution\modX;
+use xPDO\Om\xPDOQuery;
+use xPDO\Om\xPDOObject;
+use MODX\Revolution\Processors\Model\GetListProcessor;
+use MODX\Revolution\modResource;
+use MODX\Revolution\modTemplateVar;
 
 /**
  * Gets a list of resources.
@@ -13,10 +21,10 @@
  * @package modx
  * @subpackage processors.resource
  */
-class callToActionTVResourceGetListProcessor extends modObjectGetListProcessor
+class GetList extends GetListProcessor
 {
     public $classKey = 'modResource';
-    public $languageTopics = array('resource');
+    public $languageTopics = ['resource'];
     public $defaultSortField = 'pagetitle';
     public $permission = 'view';
 
@@ -25,12 +33,12 @@ class callToActionTVResourceGetListProcessor extends modObjectGetListProcessor
     protected $inputProperties = [];
 
     /**
-     * calltoactiontvResourceGetListProcessor constructor.
+     * GetList constructor.
      *
      * @param modX $modx
      * @param array $properties
      */
-    public function __construct(modX &$modx, array $properties = array())
+    public function __construct(modX &$modx, array $properties = [])
     {
         parent::__construct($modx, $properties);
 
@@ -52,7 +60,7 @@ class callToActionTVResourceGetListProcessor extends modObjectGetListProcessor
     public function process()
     {
         if ($this->getProperty('tvId')) {
-            $this->tvObject = $this->modx->getObject('modTemplateVar', $this->getProperty('tvId'));
+            $this->tvObject        = $this->modx->getObject(modTemplateVar::class, $this->getProperty('tvId'));
             $this->inputProperties = $this->tvObject ? $this->tvObject->get('input_properties') : [];
 
             if ($this->tvObject && !empty(trim($this->tvObject->get('elements')))) {
@@ -62,14 +70,14 @@ class callToActionTVResourceGetListProcessor extends modObjectGetListProcessor
                     list($pagetitle, $id) = explode('==', $item);
 
                     $options[] = [
-                        'id' => $id,
+                        'id'        => $id,
                         'pagetitle' => $this->preparePagetitle($pagetitle),
                     ];
                 }
 
                 if (!$this->getProperty('query') || $this->getProperty('query') == '') {
                     /* Make sure that selected resource is included in result. For instance if the resource is on second page it would only display the resource id. */
-                    $selectedResource = $this->modx->getObject('modResource', $this->getProperty('selectedResourceId'));
+                    $selectedResource = $this->modx->getObject(modResource::class, $this->getProperty('selectedResourceId'));
                     if ($selectedResource) {
 
                         $pagetitle = $this->preparePagetitle($selectedResource->get('pagetitle'));
@@ -94,10 +102,9 @@ class callToActionTVResourceGetListProcessor extends modObjectGetListProcessor
                     }
                 }
 
-                $offset = $this->getProperty('start', 0);
-                $limit = $this->getProperty('limit', 20);
-                $total = count($options);
-
+                $offset  = $this->getProperty('start', 0);
+                $limit   = $this->getProperty('limit', 20);
+                $total   = count($options);
                 $options = array_slice($options, $offset, $limit);
 
                 return $this->outputArray($options, $total);
@@ -116,7 +123,7 @@ class callToActionTVResourceGetListProcessor extends modObjectGetListProcessor
         if ($this->tvObject) {
             /* Check if only resources related to the current resource context should be retrieved. */
             if (isset($this->inputProperties['limit_related_ctx']) && $this->inputProperties['limit_related_ctx'] === 'true') {
-                $curResource = $this->modx->getObject('modResource', $this->getProperty('resourceId'));
+                $curResource = $this->modx->getObject(modResource::class, $this->getProperty('resourceId'));
 
                 if ($curResource) {
                     $query->where(['context_key' => $curResource->get('context_key')]);
@@ -153,7 +160,7 @@ class callToActionTVResourceGetListProcessor extends modObjectGetListProcessor
 
         if (!$this->getProperty('query')) {
             /* Make sure that selected resource is included in result. For instance if the resource is on second page it would only display the resource id. */
-            $selectedResource = $this->modx->getObject('modResource', $this->getProperty('selectedResourceId'));
+            $selectedResource = $this->modx->getObject(modResource::class, $this->getProperty('selectedResourceId'));
             if ($selectedResource) {
                 $data['results'][] = $selectedResource;
             }
@@ -168,7 +175,7 @@ class callToActionTVResourceGetListProcessor extends modObjectGetListProcessor
      */
     public function prepareRow(xPDOObject $object)
     {
-        $objectArray = $object->toArray();
+        $objectArray              = $object->toArray();
         $objectArray['pagetitle'] = $this->preparePagetitle($objectArray['pagetitle']);
 
         /* Add resource id if it is configured in TV properties. */
