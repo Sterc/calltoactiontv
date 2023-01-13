@@ -1,5 +1,9 @@
 Changelog for CallToActionTV.
 
+CallToActionTV 3.0.2
+==============
+- Fix Lingua compatibility
+
 CallToActionTV 3.0.1
 ==============
 - Fixed GetList processor to prevent error.
