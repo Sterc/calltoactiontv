@@ -77,12 +77,8 @@ class CallToActionTVInputRender extends modTemplateVarInputRender
         $this->setPlaceholder('text', addslashes($values['text']));
         $this->setPlaceholder('type', $values['type']);
         $this->setPlaceholder('displayQueryParams', isset($this->tv->get('input_properties')['display_query_params']) ? $this->tv->get('input_properties')['display_query_params'] : false);
-        $typeOptions = str_replace('[[', '[ [', $this->getTypes($properties));
-        $typeOptions = str_replace(']]', '] ]', $typeOptions);
-        $this->setPlaceholder('typeOptions', $typeOptions);
-        $styleOptions = str_replace('[[', '[ [', $this->getStyles($values['style'], $properties));
-        $styleOptions = str_replace(']]', '] ]', $styleOptions);
-        $this->setPlaceholder('styleOptions', $styleOptions);
+        $this->setPlaceholder('typeOptions', $this->sanitizeJSON($this->getTypes($properties)));
+        $this->setPlaceholder('styleOptions', $this->sanitizeJSON($this->getStyles($values['style'], $properties)));
         $this->setPlaceholder('resource', $values['resource']);
         $this->setPlaceholder('query_params', $values['query_params']);
     }
@@ -173,6 +169,16 @@ class CallToActionTVInputRender extends modTemplateVarInputRender
         $this->setPlaceholder('style', $value);
 
         return $this->modx->toJSON($options);
+    }
+
+    private function sanitizeJSON($json)
+    {
+        $replacements = [
+            '[[' => '[ [',
+            ']]' => '] ]'
+        ];
+
+        return str_replace(array_keys($replacements), $replacements, $json);
     }
 }
 
