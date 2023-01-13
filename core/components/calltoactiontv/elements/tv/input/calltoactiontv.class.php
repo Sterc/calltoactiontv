@@ -21,7 +21,11 @@ class CallToActionTVInputRender extends modTemplateVarInputRender
      */
     public function getTemplate()
     {
-        $corePath = $this->modx->getOption('calltoactiontv.core_path', null, $this->modx->getOption('core_path') . 'components/calltoactiontv/');
+        $corePath = $this->modx->getOption(
+            'calltoactiontv.core_path',
+            null,
+            $this->modx->getOption('core_path') . 'components/calltoactiontv/'
+        );
 
         return $corePath . 'elements/tv/input/tpl/calltoactiontv.render.tpl';
     }
@@ -47,7 +51,9 @@ class CallToActionTVInputRender extends modTemplateVarInputRender
     public function process($value, array $params = [])
     {
         /* Retrieve TV information. */
-        $properties = array_merge($params, is_array($this->tv->_properties) ? $this->tv->_properties : []);
+        $properties = array_merge($params, is_array($this->tv->_properties) ?
+            $this->tv->_properties :
+            []);
 
         /* Default values. */
         $values['type']         = 'resource';
@@ -71,8 +77,12 @@ class CallToActionTVInputRender extends modTemplateVarInputRender
         $this->setPlaceholder('text', addslashes($values['text']));
         $this->setPlaceholder('type', $values['type']);
         $this->setPlaceholder('displayQueryParams', isset($this->tv->get('input_properties')['display_query_params']) ? $this->tv->get('input_properties')['display_query_params'] : false);
-        $this->setPlaceholder('typeOptions', $this->getTypes($properties));
-        $this->setPlaceholder('styleOptions', $this->getStyles($values['style'], $properties));
+        $typeOptions = str_replace('[[', '[ [', $this->getTypes($properties));
+        $typeOptions = str_replace(']]', '] ]', $typeOptions);
+        $this->setPlaceholder('typeOptions', $typeOptions);
+        $styleOptions = str_replace('[[', '[ [', $this->getStyles($values['style'], $properties));
+        $styleOptions = str_replace(']]', '] ]', $styleOptions);
+        $this->setPlaceholder('styleOptions', $styleOptions);
         $this->setPlaceholder('resource', $values['resource']);
         $this->setPlaceholder('query_params', $values['query_params']);
     }
